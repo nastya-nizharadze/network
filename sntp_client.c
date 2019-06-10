@@ -82,15 +82,16 @@ int main(int argc, char** argv) {
         packet.trTm_s = ntohl(packet.trTm_s) - TIME_DELTA;
         packet.recTm_s = ntohl(packet.recTm_s) - TIME_DELTA;
 
-        roundtrip += (((uint32_t)seconds_before - (uint32_t)seconds_after) - (packet.recTm_s - packet.trTm_s)) / 2;
+        roundtrip += (((uint32_t)seconds_after - (uint32_t)seconds_before) - (packet.trTm_s - packet.recTm_s)) / 2;
 //                                                                                                printf("%i\n", roundtrip);
     }
 
     roundtrip /= 3;
-    uint32_t real_time = packet.trTm_s + roundtrip;
+    long int real_time = packet.trTm_s + roundtrip;
+//	printf("real_time, %i\n", real_time);
 
     printf( "roundtrip: %i\n", roundtrip);
-    printf( "Time: %s", ctime((const time_t*) &real_time));
-
+    printf( "Time: %s\n", ctime((const time_t*) &real_time));
+	//perror("");
     return 0;
 }
